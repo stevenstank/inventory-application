@@ -24,6 +24,10 @@
           <% items.forEach((item) => { %>
             <li>
               <a href="/items/<%= item.id %>"><%= item.name %></a>
+              <div class="actions">
+                <a class="nav-link" href="/items/<%= item.id %>">View Item</a>
+                <a class="nav-link" href="/items/<%= item.id %>/edit">Edit Item</a>
+              </div>
             </li>
           <% }) %>
         </ul>

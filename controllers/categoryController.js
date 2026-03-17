@@ -1,9 +1,9 @@
 const db = require('../db');
 
 const listCategories = async (req, res) => {
-  const sql = 'SELECT id, name FROM categories ORDER BY name ASC';
-  const result = await db.query(sql);
-  res.render('categories', { categories: result.rows });
+  const result = await db.query('SELECT id, name FROM categories ORDER BY name ASC');
+  const categories = result.rows;
+  res.render('categories', { categories });
 };
 
 const listItemsByCategory = async (req, res) => {
@@ -50,9 +50,9 @@ const showEditCategoryForm = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   const { categoryId } = req.params;
-  const { name, admin_password } = req.body;
+  const { name, adminPassword } = req.body;
 
-  if (admin_password !== process.env.ADMIN_PASSWORD) {
+  if (adminPassword !== process.env.ADMIN_PASSWORD) {
     return res.status(403).send('Invalid admin password');
   }
 
@@ -63,9 +63,9 @@ const updateCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
   const { categoryId } = req.params;
-  const { admin_password } = req.body;
+  const { adminPassword } = req.body;
 
-  if (admin_password !== process.env.ADMIN_PASSWORD) {
+  if (adminPassword !== process.env.ADMIN_PASSWORD) {
     return res.status(403).send('Invalid admin password');
   }
 

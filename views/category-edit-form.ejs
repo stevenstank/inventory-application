@@ -27,8 +27,8 @@
           </div>
 
           <div>
-            <label for="admin_password">Admin Password</label>
-            <input id="admin_password" name="admin_password" type="password" required />
+            <label for="adminPassword">Admin Password</label>
+            <input id="adminPassword" name="adminPassword" type="password" required />
           </div>
 
           <button type="submit">Update Category</button>
@@ -39,8 +39,8 @@
         <h2>Delete Category</h2>
         <form class="form-grid" action="/categories/<%= category.id %>/delete" method="POST">
           <div>
-            <label for="delete_admin_password">Admin Password</label>
-            <input id="delete_admin_password" name="admin_password" type="password" required />
+            <label for="deleteAdminPassword">Admin Password</label>
+            <input id="deleteAdminPassword" name="adminPassword" type="password" required />
           </div>
           <button class="btn-danger" type="submit">Delete Category</button>
         </form>

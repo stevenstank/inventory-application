@@ -1,11 +1,10 @@
 :root {
   --bg: #000000;
-  --panel: #111111;
-  --panel-2: #171717;
-  --line: #f2c200;
-  --text: #ffd84d;
-  --text-soft: #e3c557;
-  --danger: #ffcf00;
+  --panel: #121212;
+  --panel-soft: #1a1a1a;
+  --yellow: #f2c94c;
+  --text: #f4f4f4;
+  --text-soft: #c7c7c7;
 }
 
 * {
@@ -14,14 +13,13 @@
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top left, #1a1a1a 0%, #000000 45%);
+  background: var(--bg);
   color: var(--text);
   min-height: 100vh;
 }
 
 .nav {
-  background: #000000;
-  border-bottom: 2px solid var(--line);
+  background: #0a0a0a;
   position: sticky;
   top: 0;
 }
@@ -36,18 +34,18 @@ body {
 }
 
 .nav-link {
-  color: var(--text);
+  color: var(--text-soft);
   text-decoration: none;
-  border: 1px solid var(--line);
-  background: var(--panel);
+  background: transparent;
   padding: 0.45rem 0.75rem;
-  border-radius: 999px;
+  border-radius: 8px;
   font-size: 0.92rem;
+  transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 .nav-link:hover {
-  background: var(--line);
-  color: #000000;
+  background: #1f1f1f;
+  color: var(--yellow);
 }
 
 .page {
@@ -57,11 +55,10 @@ body {
 }
 
 .card {
-  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  background: var(--panel);
+  border-radius: 12px;
   padding: 1.25rem;
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
 }
 
 h1,
@@ -75,6 +72,11 @@ p {
   color: var(--text-soft);
 }
 
+h1,
+h2 {
+  color: var(--yellow);
+}
+
 .list {
   list-style: none;
   margin: 0;
@@ -84,19 +86,18 @@ p {
 }
 
 .list li {
-  border: 1px solid #9a7d12;
   border-radius: 10px;
-  background: #0b0b0b;
+  background: var(--panel-soft);
   padding: 0.7rem 0.85rem;
 }
 
 .list a {
-  color: var(--text);
+  color: var(--yellow);
   text-decoration: none;
 }
 
 .list a:hover {
-  text-decoration: underline;
+  color: #ffe28a;
 }
 
 .actions {
@@ -122,7 +123,6 @@ textarea,
 select,
 button {
   width: 100%;
-  border: 1px solid var(--line);
   border-radius: 10px;
   font: inherit;
 }
@@ -130,8 +130,8 @@ button {
 input,
 textarea,
 select {
-  background: #060606;
-  color: var(--text);
+  background: #080808;
+  color: #f7f7f7;
   padding: 0.65rem 0.7rem;
 }
 
@@ -141,8 +141,8 @@ textarea {
 }
 
 button {
-  background: var(--line);
-  color: #000000;
+  background: var(--yellow);
+  color: #111111;
   font-weight: 700;
   padding: 0.66rem 0.75rem;
   cursor: pointer;
@@ -157,7 +157,7 @@ button:hover {
 }
 
 .btn-danger {
-  background: #ffd23a;
+  background: #f0b429;
 }
 
 .meta {
@@ -167,8 +167,7 @@ button:hover {
 }
 
 .meta-row {
-  border-left: 3px solid var(--line);
-  padding-left: 0.6rem;
+  padding-left: 0;
 }
 
 @media (min-width: 720px) {
