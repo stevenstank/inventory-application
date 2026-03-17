@@ -10,11 +10,13 @@ const getItem = async (req, res) => {
     return res.status(404).send('Item not found');
   }
 
-  res.render('item-detail', { item: result.rows[0] });
+  res.render('item-detail', { item: result.rows[0], error: null });
 };
 
 const showCreateItemForm = async (req, res) => {
-  res.render('item-form', { categories: [] });
+  const result = await db.query('SELECT id, name FROM categories ORDER BY name ASC');
+  const categories = result.rows;
+  res.render('item-form', { categories });
 };
 
 const createItem = async (req, res) => {
@@ -41,6 +43,7 @@ const showEditItemForm = async (req, res) => {
   res.render('item-edit-form', {
     item: itemResult.rows[0],
     categories: categoryResult.rows,
+    error: null,
   });
 };
 
@@ -49,7 +52,21 @@ const updateItem = async (req, res) => {
   const { name, description, quantity, price, category_id, adminPassword } = req.body;
 
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
-    return res.status(403).send('Invalid admin password');
+    const itemSql =
+      'SELECT id, name, description, quantity, price, category_id FROM items WHERE id = $1';
+    const categorySql = 'SELECT id, name FROM categories ORDER BY name ASC';
+    const itemResult = await db.query(itemSql, [itemId]);
+    const categoryResult = await db.query(categorySql);
+
+    if (itemResult.rows.length === 0) {
+      return res.status(404).send('Item not found');
+    }
+
+    return res.render('item-edit-form', {
+      item: itemResult.rows[0],
+      categories: categoryResult.rows,
+      error: 'wrong_password',
+    });
   }
 
   const sql =
@@ -63,7 +80,18 @@ const deleteItem = async (req, res) => {
   const { adminPassword } = req.body;
 
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
-    return res.status(403).send('Invalid admin password');
+    const sql =
+      'SELECT i.id, i.name, i.description, i.quantity, i.price, i.category_id, c.name AS category_name FROM items i JOIN categories c ON c.id = i.category_id WHERE i.id = $1';
+    const result = await db.query(sql, [itemId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).send('Item not found');
+    }
+
+    return res.render('item-detail', {
+      item: result.rows[0],
+      error: 'wrong_password',
+    });
   }
 
   const sql = 'DELETE FROM items WHERE id = $1';

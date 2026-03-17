@@ -45,7 +45,7 @@ const showEditCategoryForm = async (req, res) => {
     return res.status(404).send('Category not found');
   }
 
-  res.render('category-edit-form', { category: result.rows[0] });
+  res.render('category-edit-form', { category: result.rows[0], error: null });
 };
 
 const updateCategory = async (req, res) => {
@@ -53,7 +53,16 @@ const updateCategory = async (req, res) => {
   const { name, adminPassword } = req.body;
 
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
-    return res.status(403).send('Invalid admin password');
+    const categoryResult = await db.query('SELECT id, name FROM categories WHERE id = $1', [categoryId]);
+
+    if (categoryResult.rows.length === 0) {
+      return res.status(404).send('Category not found');
+    }
+
+    return res.render('category-edit-form', {
+      category: categoryResult.rows[0],
+      error: 'wrong_password',
+    });
   }
 
   const sql = 'UPDATE categories SET name = $1 WHERE id = $2';
@@ -66,7 +75,16 @@ const deleteCategory = async (req, res) => {
   const { adminPassword } = req.body;
 
   if (adminPassword !== process.env.ADMIN_PASSWORD) {
-    return res.status(403).send('Invalid admin password');
+    const categoryResult = await db.query('SELECT id, name FROM categories WHERE id = $1', [categoryId]);
+
+    if (categoryResult.rows.length === 0) {
+      return res.status(404).send('Category not found');
+    }
+
+    return res.render('category-edit-form', {
+      category: categoryResult.rows[0],
+      error: 'wrong_password',
+    });
   }
 
   const countSql = 'SELECT COUNT(*)::int AS item_count FROM items WHERE category_id = $1';

@@ -20,11 +20,15 @@
       <section class="card">
         <h1><%= item.name %></h1>
 
+        <% if (typeof error !== "undefined" && error === "wrong_password") { %>
+          <p class="error-message">Wrong admin password</p>
+        <% } %>
+
         <div class="meta">
           <div class="meta-row"><strong>Category:</strong> <%= item.category_name %></div>
           <div class="meta-row"><strong>Description:</strong> <%= item.description || 'No description' %></div>
           <div class="meta-row"><strong>Quantity:</strong> <%= item.quantity %></div>
-          <div class="meta-row"><strong>Price:</strong> $<%= item.price %></div>
+          <div class="meta-row"><strong>Price:</strong> Rs <%= item.price %></div>
         </div>
 
         <div class="actions">

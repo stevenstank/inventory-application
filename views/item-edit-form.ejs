@@ -20,6 +20,10 @@
       <section class="card">
         <h1>Edit Item</h1>
 
+        <% if (typeof error !== "undefined" && error === "wrong_password") { %>
+          <p class="error-message">Wrong admin password</p>
+        <% } %>
+
         <form class="form-grid" action="/items/<%= item.id %>/edit" method="POST">
           <div>
             <label for="name">Name</label>
