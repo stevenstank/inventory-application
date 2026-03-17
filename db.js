@@ -1,4 +1,6 @@
-process.loadEnvFile();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const { Pool } = require('pg');
 
