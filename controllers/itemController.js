@@ -27,8 +27,38 @@ const createItem = async (req, res) => {
   res.redirect(`/categories/${category_id}/items`);
 };
 
+const showEditItemForm = async (req, res) => {
+  const { itemId } = req.params;
+  const itemSql =
+    'SELECT id, name, description, quantity, price, category_id FROM items WHERE id = $1';
+  const categorySql = 'SELECT id, name FROM categories ORDER BY name ASC';
+
+  const itemResult = await db.query(itemSql, [itemId]);
+  const categoryResult = await db.query(categorySql);
+
+  if (itemResult.rows.length === 0) {
+    return res.status(404).send('Item not found');
+  }
+
+  res.render('item-edit-form', {
+    item: itemResult.rows[0],
+    categories: categoryResult.rows,
+  });
+};
+
+const updateItem = async (req, res) => {
+  const { itemId } = req.params;
+  const { name, description, quantity, price, category_id } = req.body;
+  const sql =
+    'UPDATE items SET name = $1, description = $2, quantity = $3, price = $4, category_id = $5 WHERE id = $6';
+  await db.query(sql, [name, description, quantity, price, category_id, itemId]);
+  res.redirect(`/items/${itemId}`);
+};
+
 module.exports = {
   getItem,
   showCreateItemForm,
   createItem,
+  showEditItemForm,
+  updateItem,
 };
