@@ -25,7 +25,20 @@ const listItemsByCategory = async (req, res) => {
   });
 };
 
+const showCreateCategoryForm = (req, res) => {
+  res.render('category-form');
+};
+
+const createCategory = async (req, res) => {
+  const { name } = req.body;
+  const sql = 'INSERT INTO categories (name) VALUES ($1)';
+  await db.query(sql, [name]);
+  res.redirect('/categories');
+};
+
 module.exports = {
   listCategories,
   listItemsByCategory,
+  showCreateCategoryForm,
+  createCategory,
 };

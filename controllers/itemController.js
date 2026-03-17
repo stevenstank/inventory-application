@@ -13,6 +13,22 @@ const getItem = async (req, res) => {
   res.render('item-detail', { item: result.rows[0] });
 };
 
+const showCreateItemForm = async (req, res) => {
+  const categorySql = 'SELECT id, name FROM categories ORDER BY name ASC';
+  const categoryResult = await db.query(categorySql);
+  res.render('item-form', { categories: categoryResult.rows });
+};
+
+const createItem = async (req, res) => {
+  const { name, description, quantity, price, category_id } = req.body;
+  const sql =
+    'INSERT INTO items (name, description, quantity, price, category_id) VALUES ($1, $2, $3, $4, $5)';
+  await db.query(sql, [name, description, quantity, price, category_id]);
+  res.redirect(`/categories/${category_id}/items`);
+};
+
 module.exports = {
   getItem,
+  showCreateItemForm,
+  createItem,
 };
