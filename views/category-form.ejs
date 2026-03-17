@@ -4,14 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Category</title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <h1>Create Category</h1>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/categories">Categories</a>
+        <a class="nav-link" href="/categories/new">New Category</a>
+        <a class="nav-link" href="/items/new">New Item</a>
+      </div>
+    </nav>
 
-    <form action="/categories" method="POST">
-      <label for="name">Category Name</label>
-      <input id="name" name="name" type="text" required />
-      <button type="submit">Create Category</button>
-    </form>
+    <main class="page">
+      <section class="card">
+        <h1>Create Category</h1>
+
+        <form class="form-grid" action="/categories" method="POST">
+          <div>
+            <label for="name">Category Name</label>
+            <input id="name" name="name" type="text" required />
+          </div>
+          <button type="submit">Create Category</button>
+        </form>
+      </section>
+    </main>
   </body>
 </html>

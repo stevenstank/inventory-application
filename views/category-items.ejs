@@ -4,18 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Items in <%= category.name %></title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <h1>Items in <%= category.name %></h1>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/categories">Categories</a>
+        <a class="nav-link" href="/categories/new">New Category</a>
+        <a class="nav-link" href="/items/new">New Item</a>
+      </div>
+    </nav>
 
-    <ul>
-      <% items.forEach((item) => { %>
-        <li>
-          <a href="/items/<%= item.id %>"><%= item.name %></a>
-        </li>
-      <% }) %>
-    </ul>
+    <main class="page">
+      <section class="card">
+        <h1>Items in <%= category.name %></h1>
 
-    <a href="/categories">Back to Categories</a>
+        <ul class="list">
+          <% items.forEach((item) => { %>
+            <li>
+              <a href="/items/<%= item.id %>"><%= item.name %></a>
+            </li>
+          <% }) %>
+        </ul>
+
+        <div class="actions">
+          <a class="nav-link" href="/categories">Back to Categories</a>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

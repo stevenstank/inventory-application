@@ -4,8 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inventory App</title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <h1>Inventory App</h1>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/categories">Categories</a>
+        <a class="nav-link" href="/categories/new">New Category</a>
+        <a class="nav-link" href="/items/new">New Item</a>
+      </div>
+    </nav>
+
+    <main class="page">
+      <section class="card">
+        <h1>Inventory Admin Panel</h1>
+        <p>Manage categories and items from one clean dashboard.</p>
+        <div class="actions">
+          <a class="nav-link" href="/categories">View Categories</a>
+          <a class="nav-link" href="/items/new">Create Item</a>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

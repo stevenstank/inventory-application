@@ -4,21 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= item.name %></title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <h1><%= item.name %></h1>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/categories">Categories</a>
+        <a class="nav-link" href="/categories/new">New Category</a>
+        <a class="nav-link" href="/items/new">New Item</a>
+      </div>
+    </nav>
 
-    <p><strong>Category:</strong> <%= item.category_name %></p>
-    <p><strong>Description:</strong> <%= item.description || 'No description' %></p>
-    <p><strong>Quantity:</strong> <%= item.quantity %></p>
-    <p><strong>Price:</strong> $<%= item.price %></p>
+    <main class="page split">
+      <section class="card">
+        <h1><%= item.name %></h1>
 
-    <form action="/items/<%= item.id %>/delete" method="POST">
-      <label for="admin_password">Admin Password</label>
-      <input id="admin_password" name="admin_password" type="password" required />
-      <button type="submit">Delete Item</button>
-    </form>
+        <div class="meta">
+          <div class="meta-row"><strong>Category:</strong> <%= item.category_name %></div>
+          <div class="meta-row"><strong>Description:</strong> <%= item.description || 'No description' %></div>
+          <div class="meta-row"><strong>Quantity:</strong> <%= item.quantity %></div>
+          <div class="meta-row"><strong>Price:</strong> $<%= item.price %></div>
+        </div>
 
-    <a href="/categories/<%= item.category_id %>/items">Back to Items</a>
+        <div class="actions">
+          <a class="nav-link" href="/items/<%= item.id %>/edit">Edit Item</a>
+          <a class="nav-link" href="/categories/<%= item.category_id %>/items">Back to Items</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Delete Item</h2>
+        <form class="form-grid" action="/items/<%= item.id %>/delete" method="POST">
+          <div>
+            <label for="admin_password">Admin Password</label>
+            <input id="admin_password" name="admin_password" type="password" required />
+          </div>
+          <button class="btn-danger" type="submit">Delete Item</button>
+        </form>
+      </section>
+    </main>
   </body>
 </html>
