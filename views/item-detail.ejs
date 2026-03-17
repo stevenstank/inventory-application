@@ -13,6 +13,12 @@
     <p><strong>Quantity:</strong> <%= item.quantity %></p>
     <p><strong>Price:</strong> $<%= item.price %></p>
 
+    <form action="/items/<%= item.id %>/delete" method="POST">
+      <label for="admin_password">Admin Password</label>
+      <input id="admin_password" name="admin_password" type="password" required />
+      <button type="submit">Delete Item</button>
+    </form>
+
     <a href="/categories/<%= item.category_id %>/items">Back to Items</a>
   </body>
 </html>

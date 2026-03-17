@@ -50,9 +50,34 @@ const showEditCategoryForm = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   const { categoryId } = req.params;
-  const { name } = req.body;
+  const { name, admin_password } = req.body;
+
+  if (admin_password !== process.env.ADMIN_PASSWORD) {
+    return res.status(403).send('Invalid admin password');
+  }
+
   const sql = 'UPDATE categories SET name = $1 WHERE id = $2';
   await db.query(sql, [name, categoryId]);
+  res.redirect('/categories');
+};
+
+const deleteCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  const { admin_password } = req.body;
+
+  if (admin_password !== process.env.ADMIN_PASSWORD) {
+    return res.status(403).send('Invalid admin password');
+  }
+
+  const countSql = 'SELECT COUNT(*)::int AS item_count FROM items WHERE category_id = $1';
+  const countResult = await db.query(countSql, [categoryId]);
+
+  if (countResult.rows[0].item_count > 0) {
+    return res.status(400).send('Cannot delete category with existing items');
+  }
+
+  const deleteSql = 'DELETE FROM categories WHERE id = $1';
+  await db.query(deleteSql, [categoryId]);
   res.redirect('/categories');
 };
 
@@ -63,4 +88,5 @@ module.exports = {
   createCategory,
   showEditCategoryForm,
   updateCategory,
+  deleteCategory,
 };

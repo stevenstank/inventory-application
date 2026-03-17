@@ -48,11 +48,29 @@ const showEditItemForm = async (req, res) => {
 
 const updateItem = async (req, res) => {
   const { itemId } = req.params;
-  const { name, description, quantity, price, category_id } = req.body;
+  const { name, description, quantity, price, category_id, admin_password } = req.body;
+
+  if (admin_password !== process.env.ADMIN_PASSWORD) {
+    return res.status(403).send('Invalid admin password');
+  }
+
   const sql =
     'UPDATE items SET name = $1, description = $2, quantity = $3, price = $4, category_id = $5 WHERE id = $6';
   await db.query(sql, [name, description, quantity, price, category_id, itemId]);
   res.redirect(`/items/${itemId}`);
+};
+
+const deleteItem = async (req, res) => {
+  const { itemId } = req.params;
+  const { admin_password } = req.body;
+
+  if (admin_password !== process.env.ADMIN_PASSWORD) {
+    return res.status(403).send('Invalid admin password');
+  }
+
+  const sql = 'DELETE FROM items WHERE id = $1';
+  await db.query(sql, [itemId]);
+  res.redirect('/categories');
 };
 
 module.exports = {
@@ -61,4 +79,5 @@ module.exports = {
   createItem,
   showEditItemForm,
   updateItem,
+  deleteItem,
 };

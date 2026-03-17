@@ -11,7 +11,17 @@
     <form action="/categories/<%= category.id %>/edit" method="POST">
       <label for="name">Category Name</label>
       <input id="name" name="name" type="text" value="<%= category.name %>" required />
+
+      <label for="admin_password">Admin Password</label>
+      <input id="admin_password" name="admin_password" type="password" required />
+
       <button type="submit">Update Category</button>
+    </form>
+
+    <form action="/categories/<%= category.id %>/delete" method="POST">
+      <label for="delete_admin_password">Admin Password</label>
+      <input id="delete_admin_password" name="admin_password" type="password" required />
+      <button type="submit">Delete Category</button>
     </form>
   </body>
 </html>
