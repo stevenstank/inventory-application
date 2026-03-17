@@ -1,7 +1,31 @@
-const listCategories = (req, res) => {
-  res.send('Category controller: list categories');
+const db = require('../db');
+
+const listCategories = async (req, res) => {
+  const sql = 'SELECT id, name FROM categories ORDER BY name ASC';
+  const result = await db.query(sql);
+  res.render('categories', { categories: result.rows });
+};
+
+const listItemsByCategory = async (req, res) => {
+  const { categoryId } = req.params;
+  const categorySql = 'SELECT id, name FROM categories WHERE id = $1';
+  const itemSql =
+    'SELECT id, name, description, quantity, price, category_id FROM items WHERE category_id = $1 ORDER BY name ASC';
+
+  const categoryResult = await db.query(categorySql, [categoryId]);
+  const itemResult = await db.query(itemSql, [categoryId]);
+
+  if (categoryResult.rows.length === 0) {
+    return res.status(404).send('Category not found');
+  }
+
+  res.render('category-items', {
+    category: categoryResult.rows[0],
+    items: itemResult.rows,
+  });
 };
 
 module.exports = {
   listCategories,
+  listItemsByCategory,
 };
