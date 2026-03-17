@@ -28,6 +28,10 @@
           <p class="error-message">Cannot delete category with existing items</p>
         <% } %>
 
+        <% if (typeof success !== "undefined" && success === "updated") { %>
+          <p class="success-message">Category updated successfully</p>
+        <% } %>
+
         <form class="form-grid" action="/categories/<%= category.id %>/edit" method="POST">
           <div>
             <label for="name">Category Name</label>

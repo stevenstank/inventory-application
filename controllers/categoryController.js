@@ -38,6 +38,7 @@ const createCategory = async (req, res) => {
 
 const showEditCategoryForm = async (req, res) => {
   const { categoryId } = req.params;
+  const updated = req.query.updated === '1';
   const sql = 'SELECT id, name FROM categories WHERE id = $1';
   const result = await db.query(sql, [categoryId]);
 
@@ -45,7 +46,11 @@ const showEditCategoryForm = async (req, res) => {
     return res.status(404).send('Category not found');
   }
 
-  res.render('category-edit-form', { category: result.rows[0], error: null });
+  res.render('category-edit-form', {
+    category: result.rows[0],
+    error: null,
+    success: updated ? 'updated' : null,
+  });
 };
 
 const updateCategory = async (req, res) => {
@@ -67,7 +72,7 @@ const updateCategory = async (req, res) => {
 
   const sql = 'UPDATE categories SET name = $1 WHERE id = $2';
   await db.query(sql, [name, categoryId]);
-  res.redirect('/categories');
+  res.redirect(`/categories/${categoryId}/edit?updated=1`);
 };
 
 const deleteCategory = async (req, res) => {
