@@ -91,7 +91,16 @@ const deleteCategory = async (req, res) => {
   const countResult = await db.query(countSql, [categoryId]);
 
   if (countResult.rows[0].item_count > 0) {
-    return res.status(400).send('Cannot delete category with existing items');
+    const categoryResult = await db.query('SELECT id, name FROM categories WHERE id = $1', [categoryId]);
+
+    if (categoryResult.rows.length === 0) {
+      return res.status(404).send('Category not found');
+    }
+
+    return res.status(400).render('category-edit-form', {
+      category: categoryResult.rows[0],
+      error: 'has_items',
+    });
   }
 
   const deleteSql = 'DELETE FROM categories WHERE id = $1';

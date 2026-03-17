@@ -24,6 +24,10 @@
           <p class="error-message">Wrong admin password</p>
         <% } %>
 
+        <% if (typeof error !== "undefined" && error === "has_items") { %>
+          <p class="error-message">Cannot delete category with existing items</p>
+        <% } %>
+
         <form class="form-grid" action="/categories/<%= category.id %>/edit" method="POST">
           <div>
             <label for="name">Category Name</label>
